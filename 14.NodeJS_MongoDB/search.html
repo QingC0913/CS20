@@ -1,1 +1,34 @@
-
+<!DOCTYPE html>
+<html lang="
+" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Search</title>
+        <style type="text/css">
+            h1 {text-align: center; color: #FA26A0;}
+            .wrapper{margin-left: 33%; margin-right: 33%;
+                     width: 33%; text-align: center;}
+            hr  {border-top: 5px cyan dotted;}
+            form{ text-align: left; margin-left: 15%; }
+            input{background-color: #F8D210; font-size: 22px; margin-top: 30px;}
+            div{font-size: 22px;}
+            
+        </style>
+    </head>
+    <body>
+        <h1>Company Stock Ticker Search</h1>
+        <hr>
+        <div class="wrapper">
+            <form class="" action="http://localhost:8080/process" method="post" >
+                <input type="radio" name="query" value="company_name" checked = "checked"> 
+                <label for="">Search by company name </label><br>
+    
+                <input type="radio" name="query" value="stock_symbol">
+                <label for="">Search by stock symbol </label><br>
+                
+                <input type="text" id="placeholder" name = "search_query">
+                <input type="submit" name="" value="Search" >
+            </form>
+        </div>
+    </body>
+</html>
