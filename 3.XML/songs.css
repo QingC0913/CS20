@@ -1,1 +1,55 @@
+artist, year, genre, title, pageTitle
+{
+    display: block;
+    padding-left: 10px; 
+    font-family: "Candara";
+    text-align: center;
+}
 
+page 
+{
+    background-color: #adf4de;
+}
+
+pageTitle
+{
+    font-weight: bolder;
+    color: black;
+    margin-top: 5px;
+    font-size: 35px; 
+}
+
+title
+{
+    font-weight: bolder; 
+    color: #0671d2;
+    font-size: 25px; 
+    margin-top: 12px;
+}
+
+artist 
+{
+    font-weight: bold;
+    color: #54a8f5; 
+    font-size: 20px; 
+}
+
+year, genre
+{
+    color: black;
+    font-size: 15px; 
+}
+
+heart
+{
+    display: block;
+    color: red; 
+    font-weight: bolder; 
+    text-align: center;
+    font-size: 50px;
+}
+spacer 
+/* to leave some space at the bottom of page*/
+{
+    margin: 50px;
+}

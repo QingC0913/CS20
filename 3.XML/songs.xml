@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type = "text/css" href = "songs.css" ?>
+
+<page>
+    <pageTitle>Wedding Songs!</pageTitle>
+    
+    <songs>
+        <song>
+            <title>Canon in D Major</title>
+            <artist>Johann Pachelbel</artist>
+            <genre>Baroque</genre>
+            <year>1694</year>
+        </song>
+        
+        <song>
+            <title>The Way That I Love You</title>
+            <artist>Passenger</artist>
+            <genre>Pop</genre>
+            <year>2020</year>
+        </song>
+        
+        <song>
+            <title>Perfect Symphony</title>
+            <artist>Ed Sheeran</artist>
+            <artist>Andrea Bocelli</artist>
+            <genre>Pop</genre>
+            <genre>Latin Ballad</genre>
+            <year>2018</year>
+        </song>
+            
+        <song>
+            <title>How Long Will I Love You</title>
+            <artist>Jon Boden</artist>
+            <artist>Sam Sweeney</artist>
+            <artist>Ben Coleman</artist>
+            <genre>Folk Rock</genre>
+            <year>2013</year>
+        </song>
+        
+        <song>
+            <title>A Thousand Years</title>
+            <artist>Christina Perri</artist>
+            <genre>Movie</genre>
+            <year>2011</year>
+        </song>
+        
+        <bunny>
+            <heart>
+                (\_/)              
+            </heart>
+            <heart>
+                ( ._.)              
+            </heart>
+            <heart>
+                / &gt;&lt;3         
+            </heart>    
+        </bunny>
+            
+        <song>
+            <title>I Just Called To Say I Love You</title>
+            <artist>Stevie Wonder</artist>
+            <genre>Pop</genre>
+            <genre>R &amp; B</genre>
+            <year>1984</year>
+        </song>
+        
+        <song>
+            <title>Il Mondo</title>
+            <artist>Jimmy Fontana</artist>
+            <genre>Pop</genre>
+            <year>1965</year>
+        </song>
+        
+        <song>
+            <title>Only You</title>
+            <artist>The Flying Pickets</artist>
+            <genre>New Wave</genre>
+            <genre>Synth-Pop</genre>
+            <year>1983</year>
+        </song>
+        
+        <song>
+            <title>Tu Eres Mi Tesoro</title>
+            <artist>Andrea Bocelli</artist>
+            <genre>Pop</genre>
+            <year>2018</year>
+        </song>
+        
+        <song>
+            <title>Dance With Me</title>
+            <artist>beabadoobee</artist>
+            <genre>Pop</genre>
+            <year>2018</year>
+        </song>
+    </songs>
+    <spacer></spacer>
+</page>
