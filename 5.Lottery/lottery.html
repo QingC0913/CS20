@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Lucky for Life</title>
+        <style type="text/css">
+            h1
+            {
+                text-align: center;
+                color: green;
+                font-family: 'ZCOOL QingKe HuangYou', cursive;
+                border: 3px dotted green; 
+                border-radius: 5px; 
+                padding: 5px;
+                margin: 12px;  
+            }
+            
+            .col {
+              float: left;
+              width: 33.33%;
+              margin-left: 0; 
+              margin-right: 0;
+            }
+            
+            .row{
+                display: table;
+            }
+            
+            img 
+            {
+                width: 100%;
+            }
+            
+            hr
+            {
+                border-top: 2px dotted green;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <h1>Lucky For Life</h1>
+
+        <div class="row">
+            <div class="col">
+                <img src="mon.jpg" alt="image of 100 dollar bills">   
+            </div>
+            <div class="col">
+                <img src="mon.jpg" alt="image of 100 dollar bills">   
+            </div>
+            <div class="col"> 
+                <img src="mon.jpg" alt="image of 100 dollar bills">   
+            </div>
+        </div> 
+        <script type="text/javascript">
+            // var declar
+            var ran = []; 
+            var win = [12, 15, 24, 35, 38]; 
+            var my_lucky = Math.floor(Math.random() * 18) + 1;
+            var lucky = 3; 
+            var matches = 0; 
+            
+            /*checkDup
+            Arguments: an array of ints, the item to check 
+            Returns: true if any array element matches the item, false otherwise 
+            */
+            function checkDup(arr, item)
+            {
+                for (i = 0; i < arr.length; i++)
+                {
+                    if (arr[i] == item)
+                        return true;
+                }
+                return false; 
+            }
+                        
+            // generate my picks            
+            for (i = 0; i < 5; i++)
+            {
+                new_ran = Math.floor(Math.random() * 48) + 1;
+                
+                //checks if the newly generated random number is a dup
+                var dup = checkDup(ran, new_ran); 
+                
+                //if so, keep generating new num until it is not a dup 
+                while (dup)
+                {
+                    new_ran = Math.floor(Math.random() * 48) + 1;
+                    dup = checkDup(ran, new_ran);
+                }
+                ran[i] = new_ran; 
+            }
+            
+            document.write("<br> My pick: " + ran.join(", ") +"<br>"); 
+            ran = ran.sort(function(a, b){return a - b});
+            document.write("My pick sorted: " + ran.join(", ") + "<br>");
+            document.write("Winning numbers: " + win.join(", ") + "<br>");
+            
+            // count matches
+            for (i = 0; i < 5; i++)
+            {
+                for (j = 0; j < 5; j++)
+                {
+                    if (ran[i] == win[j])
+                        matches++;
+                }
+            }
+            document.write("Numbers matched: " + matches); 
+            document.write("<hr>" +"My lucky ball: " + my_lucky + "<br>");
+            document.write("Winning lucky ball: " + lucky + "<br>");
+            document.write("Lucky ball matches: ");
+            var str = ""; 
+            // count winnings 
+            if (lucky == my_lucky)
+            {
+                document.write("YES! \\(^o^)/"); 
+                switch(matches)
+                {
+                    case 5:
+                        str = "$7000 a WEEK for LIFE, \\( ﾟヮﾟ)/"; 
+                        break; 
+                    case 4: 
+                        str = "$5,000"; 
+                        break; 
+                    case 3: 
+                        str = "$150"; 
+                        break; 
+                    case 2: 
+                        str = "$25"; 
+                        break;
+                    case 1: 
+                        str = "$6"; 
+                        break;
+                    case 0: 
+                        str = "$4"; 
+                        break;
+                }
+            }
+            else {
+                document.write("no, ¯\\_(ツ)_/¯"); 
+                switch(matches)
+                {
+                    case 5: 
+                        str = "$25,000 a YEAR for LIFE, \\( ﾟヮﾟ)/"; 
+                        break; 
+                    case 4: 
+                        str = "$200"; 
+                        break; 
+                    case 3: 
+                        str = "$20"; 
+                        break;
+                    case 2: 
+                        str = "$3"; 
+                        break;
+                    default: 
+                        str = "$0, ¯\\_(ツ)_/¯";
+                        break;                     
+                }
+            }
+            
+            document.write("<hr> Your winnings: " + str);
+        </script>
+    </body>
+</html>
