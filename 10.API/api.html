@@ -1,1 +1,137 @@
+<!doctype html>
+<html>
+<head>
+	<title>Open Libray API</title>
+	<meta charset="utf-8"/>
+    <style type="text/css">
+    .bold{
+		color: #e7ae00;
+        font-weight: bold;
+        line-height: 1.5;}
+    h1 {
+        text-align: center;}
+	hr {
+		border-top: 2px solid #f4cd00;}
+	body{
+		max-width: 100%;
+		overflow-x: hidden;
+		margin: 2%;}
+	#title { font-style: italic;}
+    </style>
+	<script>
+	/*-------------------------------------------------------------------------
+	using XMLHttpRequest 
+	---------------------------------------------------------------------------*/
+    function displayResults(book_result)
+    {
+        document.getElementById("data").innerHTML = JSON.stringify(book_result);
+        document.getElementById("title").innerHTML = book_result["title"]; 
+        document.getElementById("publisher").innerHTML = book_result["publishers"]; 
+        document.getElementById("format").innerHTML = book_result["physical_format"]; 
+        document.getElementById("pages").innerHTML = book_result["number_of_pages"]; 
+        document.getElementById("location").innerHTML = book_result["publish_places"]; 
+        document.getElementById("date").innerHTML = book_result["publish_date"]; 
+        d = document.getElementById("descript").innerHTML = book_result["description"]["value"]; 
+        d = d.substring(0, d.length - 14)
+        document.getElementById("descript").innerHTML = d;     
+    }
+	function getBook() {
+        //1. make request 
+		request = new XMLHttpRequest();
+        
+        //2. open request file 
+		request.open("GET", "https://openlibrary.org/isbn/9780345339683.json", true)
 
+       //3. event firing 
+		request.onreadystatechange = function() 
+		{
+            //check if response was successfully received
+			if (request.readyState == 4 && request.status == 200) {
+				//get string
+                result = request.responseText;
+                //parse back into object
+				book_result = JSON.parse(result);
+                displayResults(book_result);
+			}
+			// not ready 
+			else if (request.readyState == 3) {
+				document.getElementById("data").innerHTML = "State = loading, please wait";
+			}
+            //error message
+			else if (request.readyState == 4 && request.status != 200) {
+				document.getElementById("data").innerHTML = "Error? Check the console to see error message.";
+			}	
+		}
+	// 4. send request 
+		request.send();
+	}
+        
+	/*-------------------------------------------------------------------------
+	using fetch
+	---------------------------------------------------------------------------*/
+    result = fetch("https://openlibrary.org/isbn/9780345339683.json")
+			.then(result => result.text())
+			//the data is logged into the console
+	        .then(data => console.log(data))
+			.catch(error => console.log(error));
+				
+</script>
+</head>
+
+<body onload="getBook()">
+	<h1>The Open Libray API</h1>
+    <hr>
+
+    <div>
+        <span class="bold">Title: </span><span id = "title"></span>
+        <br>
+        <span class="bold">Publisher: </span><span id = "publisher"></span>
+        <br>
+        <span class = "bold">Format: </span><span id = "format"></span>
+        <br>
+        <span class= "bold">Published in: </span><span id = "location"></span>
+        <br>
+        <span class= "bold">Number of pages: </span><span id = "pages"></span>
+        <br>
+        <span class= "bold">Published date: </span><span id = "date"></span>
+        <br>
+        <span class= "bold">Short Description: </span><span id = "descript"></span>
+        <hr>
+        <div>
+            <ul>
+                <li>The API used is one of the several free/public APIs from the Open Library. 
+                They have Works/Editions/ISBN/Books APIs, and the one I used is the ISBN API, 
+                which, when given an isbn number, it returns data associated with the book. </li>
+                <li>I found the API from a <a href="https://github.com/public-apis/public-apis#books" target = "_blank">GitHub</a> page. </li>
+				<li>I found the link to the <a href="https://openlibrary.org/dev/docs/api/books" target = "_blank">documentation</a> in the GitHub page as well. </li>
+				<li>The other options for requesting were Works, Editions, and Books. The query I put into the API request call was the ISBN number 
+					for <em>The Hobbit</em>, and I also had the option of receiving the data in JSON object format. The other request options were through using 
+					OCLC, LCCN, and OLID (Online Computer Library Center ids, Open Library ids and other book-identifying numbers). The other option for data format
+					was ".yml". 
+					Some of the keys I used to display the above information were: 
+                    <ul>
+                        <li>publishers</li>
+                        <li>publish_date</li>
+                        <li>number_of_pages</li>
+                        <li>publish_places</li>
+                    </ul>
+                </li>
+				<li>Potential applications
+					<ul>
+						<li>Small independent bookstore owners might want to use this API to display the books  
+						that they are selling on their website. </li>
+						<li>If someome has a blog or does book reviews, they might use the API to show their readers
+						some basic information about the book, including the description, author, length (pages), and year. </li>
+					</ul>
+				</li>
+            </ul>
+        </div>
+    <hr>
+	
+	<span class="bold">Data retrieved from XMLHttpRequest:</span>
+    <div id="data"></div>
+	<br>
+    <div class = "bold">Data retrieved from fetch are logged in the console.</div>
+    
+</body>
+</html>
