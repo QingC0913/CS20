@@ -1,0 +1,104 @@
+<!-- to get user ip address so can adjust region for time/date?  https://ipstack.com/ -->
+<!doctype html>
+<html>
+<head>
+	<title>Time API</title>
+	<meta charset="utf-8"/>
+	<style media="screen">
+		.bold{font-weight: bold;}
+	</style>
+	<script>
+	
+	/*-------------------------------------------------------------------------
+	using fetch
+	---------------------------------------------------------------------------*/
+    // result = fetch("http://worldtimeapi.org/api/timezone/America/New_York.json")
+	// 		.then(result => result.text())
+	// 		//the data is logged into the console
+	//         .then(data => console.log(data))
+	// 		.catch(error => console.log(error));
+	/*-------------------------------------------------------------------------
+	using XMLHttpRequest 
+	---------------------------------------------------------------------------*/
+    function displayResults()
+    {
+        // document.getElementById("data").innerHTML = JSON.stringify(curr_time);
+		var datetime = curr_time['datetime']
+        document.getElementById("datetime").innerHTML = datetime;
+		var date = datetime.substring(0, datetime.indexOf('T'));
+		document.getElementById("date").innerHTML = date; 
+		var time = datetime.substring(datetime.indexOf('T') + 1, datetime.indexOf('.')); 
+		document.getElementById("time").innerHTML = time; 
+		var weekday = parseInt(curr_time["day_of_week"]); 
+		weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]; 
+		document.getElementById("weekday").innerHTML = weekdays[weekday - 1]; 
+
+		refresh(); 
+           
+    }
+	function refresh()
+	{
+		// https://www.w3schools.com/jsref/met_win_setinterval.asp
+		var something = setInterval(function () {alert("hello")}, 5000);
+		// displayResults(); 
+	}
+	function getBook() {
+        //1. make request 
+		request = new XMLHttpRequest();
+        
+        //2. open request file 
+		request.open("GET", "http://worldtimeapi.org/api/timezone/America/New_York.json", true)
+
+       //3. event firing 
+		request.onreadystatechange = function() 
+		{
+            //check if response was successfully received
+			if (request.readyState == 4 && request.status == 200) {
+				//get string
+                result = request.responseText;
+                //parse back into object
+				curr_time = JSON.parse(result);
+                displayResults();
+			}
+			// not ready 
+			else if (request.readyState == 3) {
+				document.getElementById("data").innerHTML = "State = loading, please wait";
+			}
+            //error message
+			else if (request.readyState == 4 && request.status != 200) {
+				document.getElementById("data").innerHTML = "Error? Check the console to see error message.";
+			}	
+		}
+	// 4. send request 
+		request.send();
+	}
+        
+				
+</script>
+</head>
+
+<body onload="getBook()">
+	<h1>Time API</h1>
+    <hr>
+
+    <div>
+        <span class="bold">Date: </span><span id = "datetime"></span>
+        <br>
+	</div>
+	
+	<!-- <span class="bold">Data retrieved from XMLHttpRequest:</span> -->
+    <div id="data"></div>
+	<br>
+	<span class="bold">Date:</span>
+    <div id="date"></div>
+	<br>
+	<span class="bold">Time:</span>
+    <div id="time"></div>
+	<br>
+	<span class="bold">Time:</span>
+    <div id="weekday"></div>
+	<br>
+    <!-- <div class = "bold">Data retrieved from fetch are logged in the console.</div> -->
+    
+</body>
+</html>

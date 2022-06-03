@@ -1,0 +1,60 @@
+<!-- to get user ip address so can adjust region for time/date?  https://ipstack.com/ -->
+<!doctype html>
+<html>
+<head>
+	<title>Time API</title>
+	<meta charset="utf-8"/>
+	<style type="text/css">
+		.bold{font-weight: bold;}
+	</style>
+	<script>
+	
+	    function displayResults()
+	    {
+			// https://www.w3schools.com/jsref/jsref_obj_date.asp
+			// https://www.w3docs.com/snippets/javascript/how-to-get-the-current-date-and-time-in-javascript.html
+	        var dateObj = new Date(); 
+			var weekday = dateObj.getDay(); 
+				weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; 
+				weekday = weekdays[weekday]; 
+			var yyyy = dateObj.getFullYear(); 
+			var mm = dateObj.getMonth() + 1; 
+				mm = (mm < 10) ? ("0" + mm.toString()) : mm;
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
+			var dd = dateObj.getDate(); 
+				dd = (dd < 10) ? ("0" + mm.toString()) : dd;
+			var date = weekday + ", " + yyyy + "/" + mm + "/" + dd; 
+			document.getElementById("date").innerHTML = date; 
+			
+			var hr = dateObj.getHours();
+				hr = (hr < 10) ? ("0" + hr.toString()) : hr;
+			var min = dateObj.getMinutes(); 
+				min = (min < 10) ? ("0" + min.toString()) : min;
+			var sec = dateObj.getSeconds(); 
+				sec = (sec < 10) ? ("0" + sec.toString()) : sec;
+			var time = hr + ":" + min + ":" + sec ;
+			document.getElementById("time").innerHTML = time; 
+
+			refresh(); 
+			// getTime(dateObj); 
+	           
+	    }
+		
+		function refresh()
+		{
+			// https://www.w3schools.com/jsref/met_win_setinterval.asp
+			var something = setInterval(function () {displayResults()}, 1000);
+		}
+					
+</script>
+</head>
+
+<body onload="displayResults()">    
+	<span class="bold">Date:</span>
+    <div id="date"></div>
+	<br>
+	<span class="bold">Time:</span>
+    <div id="time"></div>
+	<br>
+</body>
+</html>
