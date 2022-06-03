@@ -1,1 +1,91 @@
+﻿after connecting to MongoDB via MongoShell:
 
+Atlas atlas-10bzts-shard-0 [primary] band> show dbs
+band                73.7 kB
+sample_airbnb       55.3 MB
+sample_analytics     9.8 MB
+sample_geospatial   1.77 MB
+sample_guides       73.7 kB
+sample_mflix        49.3 MB
+sample_restaurants  6.96 MB
+sample_supplies     1.19 MB
+sample_training     62.8 MB
+sample_weatherdata  2.93 MB
+admin                344 kB
+local               3.95 GBAtlas atlas-10bzts-shard-0 [primary] myFirstDatabase> use band
+switched to db band
+Atlas atlas-10bzts-shard-0 [primary] band> show collections
+set_list
+Atlas atlas-10bzts-shard-0 [primary] band> db.set_list.find()
+[
+  {
+    _id: ObjectId("624ee35e676f660cf25ca47d"),
+    Title: 'Canon in D Major',
+    Artists: [ 'Johann Pachelbel' ],
+    Genres: [ 'Baroque' ]
+  },
+  {
+    _id: ObjectId("624ee404676f660cf25ca47e"),
+    Title: 'The Way That I Love You',
+    Genres: [ 'Pop' ],
+    Artists: [ 'Passenger' ]
+  },
+  {
+    _id: ObjectId("624ee441676f660cf25ca47f"),
+    Title: 'How Long Will I Love You',
+    Artists: [ 'Jon Boden', 'Sam Sweeney', 'Ben Coleman' ],
+    Genres: [ 'Folk Rock' ]
+  },
+  {
+    _id: ObjectId("624ee489676f660cf25ca480"),
+    Title: 'A Thousand Years',
+    Artists: [ 'Christina Perri' ],
+    Genres: [ 'Pop' ]
+  },
+  {
+    _id: ObjectId("624ee4cc676f660cf25ca481"),
+    Title: 'I Just Called To Say I Love You',
+    Artists: [ 'Stevie Wonder' ],
+    Genres: [ 'R&B' ]
+  },
+  {
+    _id: ObjectId("624ee4fa676f660cf25ca482"),
+    Title: 'Il Mondo',
+    Artists: [ 'Jimmy Fontana' ],
+    Genres: [ 'Pop' ]
+  },
+  {
+    _id: ObjectId("624ee519676f660cf25ca483"),
+    Title: 'Only You',
+    Artists: [ 'The Flying Pickets' ],
+    Genres: [ 'New Wave', 'Synth-Pop' ]
+  },
+  {
+    _id: ObjectId("624ee543676f660cf25ca484"),
+    Title: 'Tu Eres Mi Tesoro',
+    Artists: [ 'Andrea Bocelli' ],
+    Genres: [ 'Pop' ]
+  },
+  {
+    _id: ObjectId("624ee56a676f660cf25ca485"),
+    Title: 'Dance With Me',
+    Artists: [ 'beabadoobee' ],
+    Genres: [ 'Pop' ]
+  },
+  {
+    _id: ObjectId("624ee58a676f660cf25ca486"),
+    Title: 'Perfect Symphony',
+    Artists: [ 'Ed Sheeran', 'Andrea Bocelli' ],
+    Genres: [ 'Pop', 'Latin Ballad' ]
+  }
+]
+Atlas atlas-10bzts-shard-0 [primary] band> db.set_list.find({Genres: "Pop"}, {Title:1, _id: 0})
+[
+  { Title: 'The Way That I Love You' },
+  { Title: 'A Thousand Years' },
+  { Title: 'Il Mondo' },
+  { Title: 'Tu Eres Mi Tesoro' },
+  { Title: 'Dance With Me' },
+  { Title: 'Perfect Symphony' }
+]
+Atlas atlas-10bzts-shard-0 [primary] band>
