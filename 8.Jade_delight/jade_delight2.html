@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<title>Jade Delight</title>
+<style type="text/css">
+	label 
+	{
+		display: inline-block;
+	    text-align: left;
+	    vertical-align: middle;
+		clear: left;  
+		width: 350px; 
+	}
+	h1{
+		color: #66AA66;
+		text-align: center;
+		border-bottom: 4px dotted #0b840b;
+	}
+	label, th
+	{
+		color: green;
+		font-weight: bold;
+	}	
+	select 
+	{
+		background-color: #66AA66;
+		border-width: 1px solid green; 
+	}
+	button {
+		background-color: green; 
+		border-width: 0;
+	}
+</style>
+</head>
+
+<body>
+<script>
+
+//obj definition
+function MenuItem(name, cost)
+{
+	this.name = name;
+	this.cost = cost;
+}
+
+//array of objects
+menuItems = new Array(
+	new MenuItem("Chicken Chop Suey", 4.5),
+	new MenuItem("Sweet and Sour Pork", 6.25),
+	new MenuItem("Shrimp Lo Mein", 6.25),
+	new MenuItem("Moo Shi Chicken", 7.5),
+	new MenuItem("Fried Rice", 2.85)
+);
+
+//make the selection dropdown 
+function makeSelect(name, minRange, maxRange)
+{
+	var t= "";
+	t = "<select name='" + name + "' size='1'>";
+	for (j=minRange; j<=maxRange; j++)
+	   t += "<option>" + j + "</option>";
+	t+= "</select>"; 
+	return t;
+}
+
+function td(content, className="")
+{
+	return "<td class = '" + className + "'>" + content + "</td>";
+}
+	
+</script>
+
+<h1>Jade Delight</h1>
+<form>
+
+	<p class="userInfo"><label>First Name:</label> <input type="text"  name='fname' /></p>
+	<p class="userInfo"><label>Last Name*:</label>  <input type="text"  name='lname' /></p>
+	<p class="userInfo address"><label>Street*:</label> <input type="text" name='street' /></p>
+	<p class="userInfo address"><label>City*:</label> <input type="text" name='city' /></p>
+	<p class="userInfo"><label>Phone*:</label> <input type="text"  name='phone' /></p>
+	<p> 
+		<input type="radio"  name="p_or_d" value = "pickup" checked="checked"/>Pickup  
+		<input type="radio"  name='p_or_d' value = 'delivery'/>Delivery
+	</p>
+	<table border="0" cellpadding="3">
+	  <tr>
+	    <th>Select Item</th>
+	    <th>Item Name</th>
+	    <th>Cost Each</th>
+	    <th>Total Cost</th>
+	  </tr>
+	<script>
+
+	  var s = "";
+	  //for each item on menu, make a row
+	  for (i=0; i< menuItems.length; i++)
+	  {
+		  //includes selection bar, item, cost, total for that item 
+		  // function makeSelect(name, minRange, maxRange)
+		  // function td(content, className="")
+		  s += "<tr>";
+		  s += td(makeSelect("quan" + i, 0, 10),"selectQuantity");
+		  s += td(menuItems[i].name, "itemName");
+		  s += td("$" +menuItems[i].cost.toFixed(2), "cost");
+		  s += td("$<input type='text' name='cost'/>", "totalCost");
+		  s+= "</tr>";
+	  }
+	  document.writeln(s);
+	</script>
+	</table>
+	<p class="subtotal totalSection"><label>Subtotal:</label> 
+	   $<input type="text"  name='subtotal' id="subtotal" />
+	</p>
+	<p class="tax totalSection"><label>Mass tax 6.25%:</label>
+	  $<input type="text"  name='tax' id="tax" />
+	</p>
+	<p class="total totalSection"><label>Total:</label> $<input type="text"  name='total' id="total" />
+	</p>
+
+	<input type = "button" value = "Submit Order"/>
+
+</form>
+
+<div>
+	<input type="text" id = "message" style = "display: none">
+	<input type="text" id = "time" style = "display: none">
+</div>
+
+<script type="text/javascript">
+	window.onload = function() {
+		initialize(); 
+		submit_btn = document.getElementsByTagName("input")[15];
+		submit_btn.onclick = pressButton; 
+
+		pickup = document.getElementsByName("p_or_d")[0]; 
+		pickup.onclick = function(){processOrder("p");};
+		deliv = document.getElementsByName("p_or_d")[1]; 
+		deliv.onclick = function(){processOrder("d");}; 
+		
+		$("select[name = quan0]")[0].onchange = function() {recalc(0)};
+		$("select[name = quan1]")[0].onchange = function() {recalc(1)};
+		$("select[name = quan2]")[0].onchange = function() {recalc(2)};
+		$("select[name = quan3]")[0].onchange = function() {recalc(3)};
+		$("select[name = quan4]")[0].onchange = function() {recalc(4)};
+		
+		//I have tried this for loop but it was causing errors and I 
+		//didn't have enough time to improve it
+		// for (i = 0; i < menuItems.length; i++)
+		// {
+		// 	$("select[name = quan" + i + "]")[0].onchange = function ()
+		// 	{recalc(i)};
+		// }
+	}
+	
+	//recalculates the total cost per item, subtotal, total, and tax everytime
+	//user makes a selection 
+	function recalc(i)
+	{	
+		//updating Total Cost for item 
+		item_cost = menuItems[i].cost;
+		selected = $("select[name = quan" + i + "]")[0].selectedIndex;
+		total_cost = (selected * item_cost);
+		$("input[name = cost]")[i].value = total_cost;
+		
+		//updating subtotal
+		subtotal = 0;
+		for (x = 0; x < menuItems.length; x++)
+		{
+			//add Total cost of each menu item 
+			subtotal += parseFloat($("input[name = cost]")[x].value);
+		}
+		document.getElementById("subtotal").value = subtotal;
+		
+		//updating tax
+		tax = (subtotal * 0.0625).toFixed(2);
+		document.getElementById("tax").value = tax;
+		
+		//updating total 
+		document.getElementById("total").value = subtotal + parseFloat(tax);
+	}
+	
+	//validates form and compiles order summary when user clicks submit
+	function pressButton()
+	{	
+		if (validateForm())
+		{
+		   calcTime();
+		   alert("Thank you for your order. Click Ok to " + 
+	   				"see your order summary.");
+		   new_window();
+	   }
+   }
+   
+   //writes order summary in a new window
+   function new_window()
+   {
+	var newWindow = window.open("","Test","width=600,height=300,scrollbars=1,resizable=1")
+
+    var text = "<div>Items ordred:</div> <br>"
+	for (i = 0; i < menuItems.length; i++)
+	{
+		if ($("select[name = quan" + i +"]")[0].selectedIndex > 0)
+			text = text +  menuItems[i].name + ": $" + menuItems[i].cost + " * "
+						+ $("select[name = quan" + i +"]")[0].selectedIndex + 
+						"<br>"; 
+	}
+	text += "<hr>";
+	text += "Subtotal: $" + document.getElementById("subtotal").value +"<br>";
+	text += "Tax: $" + document.getElementById("tax").value + "<br>";
+	text += "Total: $" + document.getElementById("total").value + "<br>";
+	text += "<hr>";
+	text += document.getElementById("message").value + "<br>"; 
+	text += document.getElementById("time").value + "<br>";
+    newWindow.document.open()
+    newWindow.document.write(text)
+    newWindow.document.close()
+}
+ 
+ //calculates pickup/delivery time  
+   function calcTime()
+	{	
+		pickup = document.getElementsByName("p_or_d")[0].checked;
+		
+		if (pickup)
+		{
+			message = "Your estimated pick up time is: "; 
+			wait_time = 15;
+		}
+		else 
+		{
+			message = "Your order will be delivered at around: "
+			wait_time = 30;
+		}
+		
+		var now = new Date();
+		var later = new Date(now.getTime() + wait_time*10*6000);
+		time = later.getHours() + ":" + later.getMinutes();
+		
+		document.getElementById("message").value = message;  
+		document.getElementById("time").value = time;
+	}
+   	
+	//displays address/city parameters depending on the delivery mode
+	function processOrder(p_or_d)
+	{
+		if (p_or_d == "d")
+		{
+			document.getElementsByClassName("userInfo address")[0].style.display = "block";
+   		 	document.getElementsByClassName("userInfo address")[1].style.display = "block";
+		}
+		else {
+			document.getElementsByClassName("userInfo address")[0].style.display = "none";
+   		 	document.getElementsByClassName("userInfo address")[1].style.display = "none";
+		}
+	}
+	
+	//sets and displays all values to 0 in the beginning
+	 function initialize()
+	 {
+		 //sets all numbers to 0
+		 document.getElementsByClassName("userInfo address")[0].style.display = "none";
+		 document.getElementsByClassName("userInfo address")[1].style.display = "none";
+		 
+		 document.getElementById("subtotal").value = 0;
+		 document.getElementById("tax").value = 0; 
+		 document.getElementById("total").value = 0;
+		 
+		 for (i = 0; i < menuItems.length; i++)
+		 {
+			 document.getElementsByName("cost")[i].value = 0;
+		 }
+	 }
+	
+	//returns false if the given field is not valid
+	 function validateEntry(query, name_of_query)
+	 {
+		 if (query == "")
+		 {
+		 	alert("The " + name_of_query + " must be filled out for us to process your order!");
+			return false;
+		 }
+		else if (name_of_query == "phone number")
+		{
+			//remove non-digits
+			var query = query.replace(/\D/g, "");
+			
+			//if it's neither 7- or 10-digits
+			if ((query.length != 7) && (query.length != 10))
+			{
+				alert("Your phone number must be 7- or 10-digits. Please re-enter and submit again.");
+				return false;
+			}
+		}	
+		
+		return true;
+	 }
+	 
+	 //checks all the necessary fields (phone, last name, selection)
+	 //returns false if any field is not valid 
+	 function validateForm()
+	 {
+		 //checks phone number and last name
+		 a = validateEntry(document.getElementsByName("phone")[0].value, "phone number"); 
+		 b = validateEntry(document.getElementsByName("lname")[0].value, "last name");
+		 c = true, d = true, e = true;
+		 
+		 //if delivery selected, check if street + city are filled 
+		 if (document.getElementsByName("p_or_d")[1].checked)
+		 {
+			 c = validateEntry(document.getElementsByName("street")[0].value, "street address"); 
+			 d = validateEntry(document.getElementsByName("city")[0].value, "city");
+		 }
+		 
+	 	//checks if ANY items are selected
+		 items_selected = 0;
+		 for (i = 0; i < menuItems.length; i++)
+			 items_selected += $("select[name = quan" + i + "]")[0].selectedIndex; 
+		 
+		 if (! items_selected)
+		 {
+		 	alert("You must select at least one item!");
+			e = false;
+		 }
+		 
+		 if ((a + b + c + d + e) < 5)
+			 return false;
+		else 
+			return true;
+	 }
+</script>
+</body>
+</html>
