@@ -1,1 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Joe's Hotdog Stand</title>
+        <link rel = "stylesheet" type = "text/css" href = "hotdog.css">
+        <link href="https://fonts.googleapis.com/css2?family=Shizuru&display=swap" rel="stylesheet">
+    </head>
+    
+    <body>
+        <h1>Welcome to Joe's Hotdogs! </h1>   
+        <hr class = "main">
+        <div class="rows">  
+              <div class="col">
+                  <img src="hotdog.jpg" alt="image of hotdog with mustard and ketchup">
+              </div>
+              <div class="col">
+                  <img src="fries.jpg" alt="image of fries with ketchup">
+              </div>
+              <div class="col">
+                  <img src="soda.jpg" alt="image of cola with ice cubes">
+              </div>
+        </div> 
+        <br>
+        
+        <span>Your Order: <br></span>
+        <hr class = "main">
+        
+        <script type="text/javascript">
+            var HOTDOG_PRICE = 3.75, FRIES_PRICE = 2, SODA_PRICE = 1.8;
+            var state_tax = 6.25 / 100; 
+            
+            var hotdogs = prompt("How many hotdogs would you like?", 1); 
+            var fries = prompt("How many orders of fries would you like?", 1)
+            var sodas = prompt("How many sodas would you like?", 1);
+            var discount = 0, subtotal = 0;
+            
+            var subtotal = (hotdogs * HOTDOG_PRICE) + (fries * FRIES_PRICE) 
+                           + (sodas * SODA_PRICE); 
+            if (subtotal >= 20)
+            {
+                discount = subtotal * .1;  
+                subtotal_aft = subtotal - discount; 
+            }
+            else 
+            {
+                subtotal_aft = subtotal; 
+            }
+            
+            state_tax = (subtotal_aft * state_tax)
+            total = subtotal_aft + state_tax;    
+        </script>
 
+        <div class = "js">
+            <!-- left column -->
+            <script type="text/javascript" id = "col1">
+                document.write("Hotdogs ($3.75/each): <br>Fries ($2.00/each): " +
+                "<br>Sodas ($1.80/each): <hr>" 
+                + "Subtotal: <br>Discount: <hr>Subtotal after discount: <br>State tax: <hr>Total: <br>"); 
+            </script>
+            
+            <!-- right column -->
+            <script type="text/javascript" id = "col2">
+                document.write("<br>" + hotdogs + "<br>" + fries + "<br>" + sodas + "<hr> $"
+                                   + subtotal.toFixed(2) + "<br>-$" + discount.toFixed(2) + "<hr> $"
+                                   + subtotal_aft.toFixed(2) + "<br>$" +
+                                   + state_tax.toFixed(2) + "<br> <hr> $"  + total.toFixed(2));
+            </script>
+        </div>
+        
+        <div class = "text">
+            Thank you for supporting Joe's Hotdog! <br> Please come back soon!
+        </div>
+    </body>
+</html>

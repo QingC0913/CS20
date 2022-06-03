@@ -1,0 +1,36 @@
+h1, .text
+{
+    text-align: center;
+    color: #de360f;
+    font-size: 60px;
+    font-family: 'Shizuru', cursive;}
+.js
+{
+    column-count: 2;
+    color:black;
+}
+img 
+{
+    width: 100%;
+}
+
+.col {
+  float: left;
+  width: 33.33%;
+}
+
+.rows::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+.main 
+{
+    border-top: 2px dotted #de360f; 
+}
+
+hr
+{
+    border-top: 1px solid black;
+}
+
