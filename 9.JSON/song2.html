@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+	<title>Songs JSON</title>
+	<meta charset="utf-8"/>
+	<style type="text/css">
+		h1{text-align: center; font-size: 30px;}
+		h2{font-weight: bold; color: #000; margin-top: 0;}
+		hr {border-top: 4px solid #0671d2; margin: 2% 0; }
+		body {font-family: "Candara"; background-color: #d1f7ff; padding: 1%;}
+		select, button{margin-left: 20px; background-color: #54a8f5;; color:#FFF;
+				border: none; border-radius: 10px; padding: 1% 2%; font-size: 20px;}
+		#selection{margin-bottom: 15px;}
+		#display_songs {color: #000;}
+		#data {margin: 0 10px; border: 2px dotted #54a8f5; padding: 1%;}
+		.col1{float: right; padding-right: 10%;}
+		.col2{float: left; padding-left: 10%;}
+		.col1, .col2{display: block;position: relative;  width: 37%;
+					top: 0; color: #54a8f5;} 
+		.row{display: block; margin-top: 4%; font-size: 20px; } 
+		.bold {text-align: left; font-weight: bold; color: #000;}
+		.Title, li{color: #0671d2; font-size: 25px; text-align: center; font-style: italic; font-weight: bold;}
+		li {list-style: square; text-align: left;}
+	</style>
+	<script>
+	window.onload = function ()
+	{
+		getSongs();
+	}
+	
+	//get songs from the json file 
+	function getSongs() 
+	{
+		request = new XMLHttpRequest();
+		request.open("GET", "https://qingc.sgedu.site/QingStuff/json/songs.json", true)
+		
+		request.onreadystatechange = function() 
+		{
+			if (request.readyState == 4 && request.status == 200) {
+				//if successful, print whole json as string 
+				result = request.responseText;					
+				document.getElementById("data").innerHTML = result; 
+				
+				//parse it back into object
+				songs = JSON.parse(result);
+				//display in user-friendly format
+				display(songs);
+				getGenres(songs);
+			}
+			else if (request.readyState == 4 && request.status != 200) 
+				document.getElementById("data").innerHTML = "There was an error somewhere";
+				
+			else if (request.readyState == 3) 
+				document.getElementById("data").innerHTML = "Loading data, not ready yet";
+			}
+			
+		request.send();
+	}
+	
+	//display the json data in a user-friendly way 
+	function display(songs)
+	{
+		str = "";
+
+		//for each obj in file, get each key-value pair
+		songs.forEach(index => {
+			Object.entries(index).forEach(([key, value]) => 
+			{
+				if (key == "Title")
+					str += ("<span class = '" + key + "'>" + value 
+							+ "</span>"); 
+				else if (key == "Artist(s)" || key == "Genre(s)")
+					str += ("<span class = 'bold'>" + key + ":</span> " + value.join(", "));
+				else 
+					str += ("<span class = 'bold'>" + key + ":</span> " + value + "<br>");
+				str += "<br>";
+			}							);
+		}			);
+		document.getElementById("nice_data").innerHTML = str;
+	}
+	
+	//from json data, get all unique genres
+	function getGenres(songs)
+	{
+		genres = []; 
+		songs.forEach(index => {
+			Object.entries(index).forEach(([key, value]) => 
+			{
+				//only want the genres
+				if (key == "Genre(s)")
+				{
+					for (i = 0; i < value.length; i++)
+					{
+						//if the genre wasn't already in the array 
+						if (genres.indexOf(value[i]) == -1)
+							genres.push(value[i]);
+					}
+				}
+			}							);
+		}			);
+		makeSelect(genres);
+	}
+	
+	//from the arr of unique genres, make the selection bar and filter button 
+	function makeSelect(genres)
+	{
+		//create select dropdown 
+		str = "<select> Choose a song genre"; 
+		for (i = 0; i < genres.length; i++)
+		{
+			//the options 
+			str += ("<option class = 'opt'>"
+			 + genres[i] + "</option>");
+		}
+		str += "</select>"; 
+		
+		//create filter button
+		str += "<button>Filter</button>"
+		
+		document.getElementById("selection").innerHTML = str;
+		chooseGenre();
+	}	
+	
+	//use filter button to determine which genre was chosen 
+	function chooseGenre()
+	{
+		//get array of all the options
+		options = document.getElementsByClassName("opt"); 
+	
+		btn = document.getElementsByTagName("button")[0]; 
+		btn.onclick = function() {
+			for (i = 0; i < options.length; i++)
+			{
+				if (options[i].selected)
+				{
+					//get the selected genre 
+					chosen = options[i].value;
+					displaySelected(chosen);
+				}
+			}
+		}
+	}
+	
+	//display the songs that match the chosen genre
+	function displaySelected(chosen)
+	{
+		selectedSongs = [];
+		s = "";
+		
+		//iterate thru the songs in the data 
+		for (i = 0; i < songs.length; i++)
+		{
+			song = songs[i]; 
+			//get "Genre(s)" array in each song 
+			for (j = 0; j < song["Genre(s)"].length; j++)
+			{
+				if (song["Genre(s)"][j] == chosen)
+					selectedSongs.push(song.Title);
+			}			
+		}
+		
+		//display with bulleted list
+		s += ("<div>The following song(s) have the genre " + chosen + ":"); 
+		s += "<ul>"; 
+		for (x = 0; x < selectedSongs.length; x++)
+		{
+			s += "<li>" + selectedSongs[x] + "</li>";
+		}
+		s += "</ul> </div>";
+		
+		document.getElementById("display_songs").innerHTML = s;
+	}
+	</script>
+</head>
+
+<body>
+	<h1>Wedding Songs, JSON style</h1>
+	<hr>
+	<!-- 1. & 2. displaying raw data -->
+	<div id = "data">... Getting data ...</div>
+	
+	<div class="row">
+		<div class="col1">
+			<!-- 4. filter songs by genre -->
+			<h2>Select songs by genre: </h2>
+			<div id = "selection"></div>
+			<div id = "display_songs"></div>
+			<hr style = "border-top: 4px solid #0671d2; margin: 5% 0;">
+			<h2>Listen to the playlist <a href = "https://www.youtube.com/watch?v=JvNQLJ1_HQ0&list=PLPvEpjK6j9n-0ZOtOzB72MmiwP_u2Yf-R" target = "blank_">
+					here</a></h2>
+		</div>
+		<div class="col2">
+			<h2>Wedding Songs</h2>
+			<!-- 3. display data -->
+			<div id = "nice_data"></div>
+		</div>
+	</div>
+</body>
+</html>

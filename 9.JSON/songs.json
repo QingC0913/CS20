@@ -1,1 +1,62 @@
-
+[
+    {
+        "Title":"Canon in D Major", 
+        "Artist(s)":["Johann Pachelbel"], 
+        "Genre(s)":["Baroque"], 
+        "Year":1694
+    }, 
+    {
+        "Title":"The Way That I Love You", 
+        "Artist(s)":["Passenger"], 
+        "Genre(s)":["Pop"], 
+        "Year": 2020
+    }, 
+    {
+        "Title":"How Long Will I Love You", 
+        "Artist(s)": ["Jon Boden", "Sam Sweeney", "Ben Coleman"],
+        "Genre(s)":["Folk Rock"], 
+        "Year":2013
+    }, 
+    {
+        "Title":"A Thousand Years", 
+        "Artist(s)": ["Christina Perri"], 
+        "Genre(s)":["Pop"], 
+        "Year":2011
+    }, 
+    {
+        "Title":"I Just Called To Say I Love You", 
+        "Artist(s)": ["Stevie Wonder"], 
+        "Genre(s)":["R&B"], 
+        "Year":1984
+    }, 
+    {
+        "Title":"Il Mondo", 
+        "Artist(s)": ["Jimmy Fontana"], 
+        "Genre(s)":["Pop"], 
+        "Year":1965
+    }, 
+    {
+        "Title":"Only You", 
+        "Artist(s)":["The Flying Pickets"], 
+        "Genre(s)":["New Wave","Synth-Pop"],  
+        "Year":1983
+    }, 
+    {
+        "Title":"Tu Eres Mi Tesoro", 
+        "Artist(s)":["Andrea Bocelli"], 
+        "Genre(s)":["Pop"], 
+        "Year":2018
+    }, 
+    {
+        "Title":"Dance With Me", 
+        "Artist(s)":["beabadoobee"], 
+        "Genre(s)":["Pop"], 
+        "Year":2018
+    }, 
+    {
+        "Title":"Perfect Symphony", 
+        "Artist(s)": ["Ed Sheeran", "Andrea Bocelli"], 
+        "Genre(s)" : ["Pop", "Latin Ballad"], 
+        "Year":2018
+    }
+]
